@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using System;
+using System.Collections.ObjectModel;
 
 namespace CuriosOtter.LogicGame.Gates
 {
     public interface IGate
     {
         IOState Output { get; }
-        IObservable<IOState> OutputObservable { get; }
-        int NumberOfInputStates { get; }
-        void SetInputStateObserverable(IObservable<IOState> state, int inputIndex);
+        ReadOnlyDictionary<string,IObservable<IOState>> OutputObservable { get; }
+        IEnumerable<string> OutputNames { get; }
+        IEnumerable<string> InputNames { get; }
+        Sprite GateImage { get; set; }
+        void SetInputStateObserverable(IObservable<IOState> state, string name);
     }
 }
