@@ -5,7 +5,7 @@ namespace CuriosOtter.LogicGame.Gates
 {
     public class OrGate : IGate
     {
-        IOState IGate.Output { get; }
+        public IOState Output { get; private set; }
         private ReplaySubject<IOState> OutputObservable { get; set; }
 
         IObservable<IOState> IGate.OutputObservable => this.OutputObservable;
@@ -17,6 +17,8 @@ namespace CuriosOtter.LogicGame.Gates
         {
             states = new IOState[2];
             OutputObservable = new ReplaySubject<IOState>(1);
+            OutputObservable.Subscribe(x => Output = x);
+            Output = IOState.Off;
         }
 
         void IGate.SetInputStateObserverable(IObservable<IOState> state, int inputIndex)
